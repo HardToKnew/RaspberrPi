@@ -34,7 +34,7 @@ sudo service nginx start
 
 浏览器输入树莓派ip出现niginx初始页面，证明nginx服务启用成功
 
-![](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20210426174049377.png)
+![](https://i.loli.net/2021/04/26/JLFvWT9y35efnSH.png)
 
 小提示：linux查看ip地址命令为 ifconfig
 
@@ -45,4 +45,6 @@ sudo apt-get update
 
 sudo apt-get install net-tools
 ```
+
+安装php
 
