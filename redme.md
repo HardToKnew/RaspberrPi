@@ -16,6 +16,10 @@
 
 
 
+
+
+
+
 ## 二、配置开源Pi Dashboard (Pi 仪表盘)检测设备运行状态
 
 ### 安装方法
@@ -144,3 +148,227 @@ sudo chown -R www-data pi-dashboard
 ```
 
 ![image-20210426190756223](https://i.loli.net/2021/04/26/WjbGNV9Oqr3gi4v.png)
+
+
+
+
+
+
+
+
+
+## 三、nginx支持cgi（实现web页面关机和重启）
+
+[Nginx配置CGI_、moddemod-CSDN博客](https://moddemod.blog.csdn.net/article/details/106885761?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-10.control&dist_request_id=1332049.20056.16194934970974617&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-10.control)
+
+
+
+### 1、fcgiwrap的安装和配置
+
+
+
+```
+# sudo apt-get install fcgiwrap 
+
+由于源没有fcgiwrap，所以需要自行下载源码安装 
+
+git clone https://github.com/gnosek/fcgiwrap.git
+cd ./fcgirwap
+autoreconf -i
+./configure
+make
+make install
+```
+
+输入autoreconf -i提示需要安装
+
+```
+sudo apt install autoconf
+autoreconf -i
+```
+
+
+
+```
+./configure
+```
+
+![image-20210427092450608](https://i.loli.net/2021/04/27/IbadRNxefg62BFV.png)
+
+安装gcc
+
+```
+sudo apt install gcc
+```
+
+
+
+./configure,
+
+
+
+![image-20210427093908863](https://i.loli.net/2021/04/27/kAe4wxXURPYKNCD.png)
+
+首先确认pkg-config工具有么有安装好，没有的话安装一下：
+
+```bash
+apt-get install -y pkg-config
+```
+
+如果已经安装那么应该是执行configure的时候漏了一步
+请加下面的环境路径执行
+
+```bash
+ACLOCAL_PATH=/usr/share/aclocal ./bootstrap.sh
+```
+
+代码： [全选](https://forum.ubuntu.org.cn/viewtopic.php?t=488191#)
+
+```
+$ aclocal --print-ac-dir
+/usr/share/aclocal
+```
+
+代码： [全选](https://forum.ubuntu.org.cn/viewtopic.php?t=488191#)
+
+```
+$ find /usr -name pkg.m4
+/usr/share/aclocal/pkg.m4
+```
+
+pkg-config运行正常。
+
+代码： [全选](https://forum.ubuntu.org.cn/viewtopic.php?t=488191#)
+
+```
+$ pkg-config --version
+0.29.2
+
+$ pkg-config --modversion ibus-table
+1.9.14
+```
+
+![image-20210427094652457](https://i.loli.net/2021/04/27/c146wlhz3Pdu9mO.png)
+
+
+
+```
+sudo apt-get install ibus-table
+```
+
+dpkg亦能正常显示信息
+
+代码： [全选](https://forum.ubuntu.org.cn/viewtopic.php?t=488191#)
+
+```
+$ dpkg -l pkg-config
+ii  pkg-config     0.29.1-0ubun amd64        manage compile and link flags for
+```
+
+输入make提示安装 ，已安装忽略该操作
+
+```
+sudo apt install make
+```
+
+## 2、上边内容配置无效
+
+**使用Fcgiwrap**
+
+Fcgiqwrap是另外一个CGI封装库，跟Simple CGI类似***\*。\****
+
+***\**\*安装fcgiwrap\*\**\***
+
+```
+apt-get install fcgiwrap
+```
+
+安装以后fcgiwrap默认已经启动，对应的套接字是 /var/run/fcgiwrap.socket 。如果没有启动，使用 /etc/init.d/fcgiwrap 手动启动。
+
+
+
+**配置nginx的vhost文件**
+
+在要支持cgi脚本的路径下，添加对应的server配置。比如所有的cgi都在cgi-bin路径下（现在/monitor/api/下）：
+
+
+
+```
+	server {
+        listen 80;
+        server_name www.a.com;
+        charset UTF-8;
+        access_log /data/logs/www.a.com.log;
+        root /data/web/www;
+
+
+        location / {
+          index index.html index.htm test.php;
+        }
+
+        location ~ ^/monitor/api/ {
+          gzip off;
+          fastcgi_pass unix:/var/run/fcgiwrap.socket;
+          include /etc/nginx/fastcgi_params;
+          fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        }
+
+
+
+}
+```
+
+**重新加载nginx：**
+
+
+
+```
+/etc/init.d/nginx reload
+```
+
+
+
+
+
+**web测试页面下载：**
+
+
+
+```
+https://pan.baidu.com/s/16GGRrXRCY-oUiuXxr6J_xQ
+提取码：9t1y
+```
+
+**创建文件夹和设置权限**
+
+```
+mkdir /data/web/www
+mkdir /data/logs
+chmod +x /data/web/www/monitor/api/*.sh
+chmod 777 /var/run/fcgiwrap.socket
+```
+
+**打开页面测试**
+
+
+
+参考[在ubuntu下为nginx配置支持cgi脚本的方案_weixin_34402408的博客-CSDN博客](https://blog.csdn.net/weixin_34402408/article/details/92476140)
+
+2、nginx的配置
+# 在/etc/nginx/conf.d/内增加自己的针对cgi程序的配置，配置如下
+
+     server {
+         listen                80;
+         server_name           192.168.1.61;
+         root                  /var/www/cgi-bin/cgit-data;
+         try_files             $uri @cgit;
+     location / {
+         	fastcgi_param       SCRIPT_FILENAME /var/www/cgi-bin/cgit;
+         	#fastcgi_index       cgit;
+         	fastcgi_param       PATH_INFO       $uri;
+         	fastcgi_param       QUERY_STRING    $args;
+         	fastcgi_param       HTTP_HOST       $server_name;
+         	fastcgi_pass        127.0.0.1:8082;                                                                                         
+         	include             fastcgi_params;
+    	}
+    }
