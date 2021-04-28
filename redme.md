@@ -372,3 +372,68 @@ chmod 777 /var/run/fcgiwrap.socket
          	include             fastcgi_params;
     	}
     }
+
+
+
+# 四、配置花生壳进行内网穿透
+
+
+
+
+
+## 1、下载
+
+https://hsk.oray.com/download/
+
+选择树莓派64位
+
+
+
+
+
+## 2、上传到树莓派
+
+```
+pscp -r phtunnel_5_0_rapi_aarch64.deb ubuntu@192.168.1.61:/home/ubuntu/downloads
+```
+
+
+
+
+
+## 3、安装
+
+```
+ sudo dpkg -i phtunnel_5_0_rapi_aarch64.deb
+```
+
+安装成功后，将显示花生壳的SN码、默认密码（admin）及远程管理地址http://b.oray.com。
+
+![image-20210428113650774](https://i.loli.net/2021/04/28/2KabM769QZsX5ER.png)
+
+
+
+
+
+## 4、操作功能
+
+1、输入命令：phddns回车，可以看到扩展功能**。phddns start（启动）| status（状态）| stop（停止）|restart（重启）| reset（重置）|enable（开机自启动）|disable（关闭开机自启动）|version（版本）**
+
+![image-20210428113954099](https://i.loli.net/2021/04/28/tOXqLYrj6z9hGfa.png)
+
+
+
+
+
+## 5、日志文件存放路径：**/var/log/phddns**
+
+
+
+![image-20210428115021811](https://i.loli.net/2021/04/28/3UdYxOuADqBmnoe.png)
+
+
+
+
+
+## 6、卸载命令：**sudo dpkg -r phddns**
+
