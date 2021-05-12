@@ -1,0 +1,19 @@
+<?php echo "hello world"; ?>
+<p><a href="pi-dashboard">local</a></p>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<p><a href="http://mooocom.qicp.vip/pi-dashboard">pi-dashboard</a></p>
+</body>
+</html>
+<p><a href="http://mooocom.qicp.vip/pi-dashboard">pi-dashboard</a></p>
+<p><a href="redme.md">README</a></p>
+<p><a href="pscp.exe">pscp</a></p>

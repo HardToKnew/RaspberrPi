@@ -12,15 +12,15 @@ ethernets:
   eth0:
     dhcp4: true
     optional: true
-wifis:
-  wlan0:
-    dhcp4: true
-    optional: true
-    access-points:
-      "CMCC-Nuchip ":
-        password: "Hxgd8888"
-      HUAWEI-043E:
-        password: "HUAWEI-043E"
+#wifis:
+#  wlan0:
+#    dhcp4: true
+#    optional: true
+#    access-points:
+#      myhomewifi:
+#        password: "S3kr1t"
+#      myworkwifi:
+#        password: "correct battery horse staple"
 #      workssid:
 #        auth:
 #          key-management: eap
