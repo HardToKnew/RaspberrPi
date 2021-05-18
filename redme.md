@@ -1,30 +1,32 @@
 # 树莓派配置Ubuntu服务器
 
+查看安装包 dpkg-query -l 【包名】
+
 ## 一、初始化
 
-1、[Install Ubuntu on a Raspberry Pi | Ubuntu](https://ubuntu.com/download/raspberry-pi)下载镜像
+##### 1、[Install Ubuntu on a Raspberry Pi | Ubuntu](https://ubuntu.com/download/raspberry-pi)下载镜像
 
-2、balenaEtcher刻录镜像，sd卡容量大于4G
+##### 2、balenaEtcher刻录镜像，sd卡容量大于4G
 
-3、修改systemboot中network-config文件配置WiFi
+##### 3、修改systemboot中network-config文件配置WiFi
 
-严格遵循空格缩进规则，注意":"后一定添加空格，且注意WiFi ssid 名称末尾带有空格
+###### 严格遵循空格缩进规则，注意":"后一定添加空格，且注意WiFi ssid 名称末尾带有空格
 
-4、上电，等待开机，查看路由器后台树莓派ip,使用ssh连接该ip,路由器后台没有ip请返回修改WiFi配置，本人使用网线连接路由器，配置许久才配置WiFi成功
+##### 4、上电，等待开机，查看路由器后台树莓派ip,使用ssh连接该ip,路由器后台没有ip请返回修改WiFi配置，本人使用网线连接路由器，配置许久才配置WiFi成功
 
-5、使用默认账号ubuntu 密码ubuntu 登录服务器
+##### 5、使用默认账号ubuntu 密码ubuntu 登录服务器
 
-修改密码为手机号码
-
-
+##### 修改密码为手机号码
 
 
 
 
 
-## 二、配置开源Pi Dashboard (Pi 仪表盘)检测设备运行状态
 
-### 安装方法
+
+## 二、配置开源Pi Dashboard
+
+#####  (Pi 仪表盘)检测设备运行状态
 
 安装共2步，首先安装 Nginx（或 Apache）和 PHP。然后在 Nginx 目录通过 SFTP 或 GitHub 部署好本项目的程序。
 
@@ -65,21 +67,21 @@ Apr 26 10:04:32 ubuntu systemd[1]: Failed to start The Apache HTTP Server.
 
 
 
-## 添加 PHP 7.3 PPA
+##### 添加 PHP 7.3 PPA
 
 ```php
 $ sudo add-apt-repository ppa:ondrej/php
 $ sudo apt-get update
 ```
 
-安装php扩展
+##### 安装php扩展
 
 ```
 
 sudo apt-get install nginx php7.3-fpm php7.3-cli php7.3-curl php7.3-gd php7.3-cgi
 ```
 
-重启php
+##### 重启php
 
 ```
 sudo service php7.3-fpm restart
@@ -91,7 +93,7 @@ sudo nano /etc/nginx/sites-available/default
 
 将其中的如下内容
 
-备份default
+##### 备份default
 
 ```
 location / {
@@ -116,7 +118,7 @@ location ~\.php$ {
 }
 ```
 
-测试php
+##### 测试php
 
 ```
 默认页面通常位于/var/www/html文件夹
@@ -130,7 +132,8 @@ location ~\.php$ {
 
 #### 2.部署 Pi Dashboard
 
-**GitHub 部署**
+##### GitHub 部署
+
 如果你了解过 GitHub 的基本操作，通过 GitHub 来下载本项目到 Pi 上会相当方便。
 
 ```
@@ -273,13 +276,13 @@ ii  pkg-config     0.29.1-0ubun amd64        manage compile and link flags for
 sudo apt install make
 ```
 
-## 2、上边内容配置无效
+### 2、上边内容配置无效
 
 **使用Fcgiwrap**
 
 Fcgiqwrap是另外一个CGI封装库，跟Simple CGI类似***\*。\****
 
-***\**\*安装fcgiwrap\*\**\***
+安装fcgiwrap
 
 ```
 apt-get install fcgiwrap
@@ -356,8 +359,9 @@ chmod 777 /var/run/fcgiwrap.socket
 
 参考[在ubuntu下为nginx配置支持cgi脚本的方案_weixin_34402408的博客-CSDN博客](https://blog.csdn.net/weixin_34402408/article/details/92476140)
 
-2、nginx的配置
-# 在/etc/nginx/conf.d/内增加自己的针对cgi程序的配置，配置如下
+### 2、nginx的配置
+
+###### 在/etc/nginx/conf.d/内增加自己的针对cgi程序的配置，配置如下
 
      server {
          listen                80;
@@ -377,13 +381,13 @@ chmod 777 /var/run/fcgiwrap.socket
 
 
 
-# 四、配置花生壳进行内网穿透
+## 四、配置花生壳进行内网穿透
 
 
 
 
 
-## 1、下载
+##### 1、下载
 
 https://hsk.oray.com/download/
 
@@ -393,7 +397,7 @@ https://hsk.oray.com/download/
 
 
 
-## 2、上传到树莓派
+##### 2、上传到树莓派
 
 ```
 pscp -r phtunnel_5_0_rapi_aarch64.deb ubuntu@192.168.1.61:/home/ubuntu/downloads
@@ -403,7 +407,7 @@ pscp -r phtunnel_5_0_rapi_aarch64.deb ubuntu@192.168.1.61:/home/ubuntu/downloads
 
 
 
-## 3、安装
+##### 3、安装
 
 ```
  sudo dpkg -i phtunnel_5_0_rapi_aarch64.deb
@@ -417,7 +421,7 @@ pscp -r phtunnel_5_0_rapi_aarch64.deb ubuntu@192.168.1.61:/home/ubuntu/downloads
 
 
 
-## 4、操作功能
+##### 4、操作功能
 
 1、输入命令：phddns回车，可以看到扩展功能**。phddns start（启动）| status（状态）| stop（停止）|restart（重启）| reset（重置）|enable（开机自启动）|disable（关闭开机自启动）|version（版本）**
 
@@ -427,7 +431,7 @@ pscp -r phtunnel_5_0_rapi_aarch64.deb ubuntu@192.168.1.61:/home/ubuntu/downloads
 
 
 
-## 5、日志文件存放路径：**/var/log/phddns**
+##### 5、日志文件存放路径：**/var/log/phddns**
 
 
 
@@ -437,13 +441,13 @@ pscp -r phtunnel_5_0_rapi_aarch64.deb ubuntu@192.168.1.61:/home/ubuntu/downloads
 
 
 
-## 6、卸载命令：**sudo dpkg -r phddns**
+##### 6、卸载命令：**sudo dpkg -r phddns**
 
 
 
 ## 五、配置samba
 
-## (1)更新当前软件。
+##### (1)更新当前软件。
 
 ```linux
 sudo apt-get upgrade 
@@ -451,41 +455,43 @@ sudo apt-get update
 sudo apt-get dist-upgrade
 ```
 
-(2)安装samba服务器。
+##### (2)安装samba服务器。
+
+```
 sudo apt-get install samba samba-common
+```
 
-(3)创建一个用于分享的samba目录。
+##### (3)创建一个用于分享的samba目录。
+
+```
 sudo mkdir /home/linuxidc/linuxidc.com/share
+```
 
-(4)给创建的这个目录设置权限
+##### (4)给创建的这个目录设置权限
+
+```
 sudo chmod 777 /home/linuxidc/linuxidc.com/share
+```
 
-(5)添加用户(下面的linuxidc是我的用户名，之后会需要设置samba的密码)。
+##### (5)添加用户(下面的linuxidc是我的用户名，之后会需要设置samba的密码)。
+
+```
 sudo smbpasswd -a linuxidc
+```
 
 ![image-20210512093915660](https://i.loli.net/2021/05/12/wRyPASJpDfdh4Lb.png)
 
-(6)配置samba的配置文件。
+##### (6)配置samba的配置文件。
 
+```
 sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
 
 sudo nano /etc/samba/smb.conf
+```
 
 在配置文件smb.conf的最后添加下面的内容：
 
-[share]
-comment = share folder
-browseable = yes
-path = /home/linuxidc/linuxidc.com/share
-create mask = 0700
-directory mask = 0700
-valid users = linuxidc
-force user = linuxidc
-force group = linuxidc
-public = yes
-available = yes
-writable = yes
-
+```
 [ubuntu]
         comment = share folder
         browseable = yes
@@ -498,16 +504,23 @@ writable = yes
         public = yes
         available = yes
         writable = yes
+```
 
 检查配置文件是否正确——testparm
 
-(7)重启samba服务器。
+##### (7)重启samba服务器。
 
+```
 sudo service smbd restart
 
 sudo systemctl start smbd.service
+```
 
-***\**\*\*\*\*\*\*\*2.2.8、配置防火墙\*\*\*\*\*\*\*\*\****
+##### 配置防火墙
+
+开放端口137、138、139、445
+
+###### 命令配置
 
 ```
 sudo firewall-cmd --zone=public --add-port=139/tcp --permanent
@@ -519,9 +532,9 @@ sudo firewall-cmd --reload
 sudo systemctl restart firewalld.service
 ```
 
-开放端口【防火墙配置】——/etc/sysconfig/iptables
+###### iptables配置
 
- 开放端口137、138、139、445
+开放端口【防火墙配置】——/etc/sysconfig/iptables
 
 vim编辑/etc/sysconfig/iptables
 
@@ -530,11 +543,101 @@ vim编辑/etc/sysconfig/iptables
 -A INPUT -m state --state NEW -m tcp -p tcp --dport 445 -j ACCEPT
 ```
 
-***\**\*\*\*\*\*\*\*2.2.9、重启防火墙\*\*\*\*\*\*\*\*\****
+###### 重启防火墙
 
 ```
-/etc/init` `.d` `/iptables` `restart
+/etc/init.d/iptables restart
 ```
 
-(8)Windows徽标+R 在弹出的运行窗口中输入 \\ip即可访问。如\\192.168.182.188,输入samba用户名及密码访问即可看到共享，然后就可以在Linux系统与Windows系统直接进行文件共享了
+##### (8)Windows徽标+R 在弹出的运行窗口中输入 \\ip即可访问。如\\192.168.182.188,输入samba用户名及密码访问即可看到共享，然后就可以在Linux系统与Windows系统直接进行文件共享了
+
+
+
+## 六、Ubuntu下crontab的安装和使用
+
+[Ubuntu下crontab的安装和使用_一颗程序猿-CSDN博客](https://blog.csdn.net/longgeaisisi/article/details/90477975)
+
+*/2 * * * * token=1************************************T /root/dynv6.sh ****.dynv6.net
+
+
+
+
+
+## 七、挂载U盘
+
+##### 1、以root用户登陆
+
+常规用户使用sudo 命令
+
+#####  2、 查看当前挂载
+
+```
+sudo fdisk -l
+```
+
+
+
+![image-20210514112603671](https://i.loli.net/2021/05/14/WBOAvcEl48TVqhR.png)
+
+sudo chmod 660 /dev/sda //原权限
+
+##### 3、挂载到共享目录
+
+```ubuntu
+cd /home/share
+sudo mkdir usb
+sudo mount /dev/sda /home/share/usb -o uid=1000 //挂载U盘解决其他用户无权限
+sudo umount /home/share/usb 
+
+```
+
+
+
+
+
+## 八、linux编译c++程序
+
+###### gcc: fatal error: cannot execute ‘cc1plus’: execvp: No such file or directory
+
+###### compilation terminated.
+
+##### 1.没有安装*aarch64-linux-gnu-g++*
+
+##### *2.安装*
+
+```
+apt install g++-aarch64-linux-gnu
+```
+
+
+
+## 九、linux编译windows执行文件
+
+##### 1、安装工具
+
+```
+sudo apt-get install mingw-w64
+```
+
+##### 2、Then you can create 32-bit Windows executable with:
+
+```
+i686-w64-mingw32-gcc -o main32.exe main.c //c
+i686-w64-mingw32-g++ -o main32.exe main.c //c++
+```
+
+##### 3、And 64-bit Windows executable with:
+
+```
+x86_64-w64-mingw32-gcc -o main64.exe main.c
+```
+
+
+
+```
+i686-w64-mingw32-g++ sendtime.cpp -static-libgcc -static-libstdc++
+
+在windows下添加运行才不会报错
+-static-libgcc -static-libstdc++ 
+```
 
